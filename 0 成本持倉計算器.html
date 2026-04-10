@@ -10,7 +10,7 @@
             --muted: #94a3b8; --line: #2d2d3d; --green: #2ecc71; --blue: #3498db; --red: #e74c3c;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 90%; max-width: 400px; box-sizing: border-box; }
+        .card { width: min(90vw, 420px); min-height: 430px; box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; }
         h2 { color: var(--text); text-align: center; margin-bottom: 1.5rem; }
         .input-group { margin-bottom: 1.2rem; }
         label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }

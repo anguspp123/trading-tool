@@ -10,7 +10,7 @@
             --green: #2ecc71; --blue: #3498db; --orange: #f39c12; --red: #e74c3c;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 90%; max-width: 400px; background: var(--card); padding: 2rem; border-radius: 20px; text-align: center; border: 1px solid #2d2d3d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .container { width: min(90vw, 420px); min-height: 430px; box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; text-align: center; border: 1px solid #2d2d3d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; }
         #holiday-bar { display: none; background: #f1c40f; color: #000; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.85rem; }
         .status { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; height: 1.5em; transition: color 0.3s; }
         .timer { font-size: 4rem; font-family: 'Courier New', monospace; font-weight: bold; margin: 10px 0; color: #fff; letter-spacing: -2px; }
