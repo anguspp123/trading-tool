@@ -10,7 +10,7 @@
             --muted: #94a3b8; --line: #2d2d3d; --green: #2ecc71; --blue: #3498db; --red: #e74c3c; --content-box-height: 132px;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { width: min(90vw, 420px); height: 520px; max-height: calc(100vh - 32px); box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; overflow: auto; }
+        .card { width: min(90vw, 420px); height: 520px; max-height: calc(100vh - 32px); box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: flex-start; overflow: auto; }
         h2 { color: var(--text); text-align: center; margin-bottom: 1.5rem; }
         .input-group { margin-bottom: 1.5rem; }
         label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }
@@ -21,9 +21,9 @@
         .highlight { font-weight: bold; color: var(--red); }
         .remain { color: var(--green); font-weight: bold; }
         .note { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
-        .timer-button { display: block; margin-top: 1.25rem; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-align: center; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
-        .timer-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
-        .timer-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
+        .page-button { display: block; margin-top: auto; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-align: center; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
+        .page-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .page-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
     </style>
 </head>
 <body>
@@ -50,7 +50,7 @@
         * 建議操作時預留少許空間作手續費。
     </p>
 
-    <a class="timer-button" href="./index.html">返回 US TIMER</a>
+    <a class="page-button" href="./index.html">返回 US TIMER</a>
 </div>
 
 <script>

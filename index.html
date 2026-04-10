@@ -10,7 +10,7 @@
             --green: #2ecc71; --blue: #3498db; --orange: #f39c12; --red: #e74c3c; --content-box-height: 132px;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: min(90vw, 420px); height: 520px; max-height: calc(100vh - 32px); box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; text-align: center; border: 1px solid #2d2d3d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; overflow: auto; }
+        .container { width: min(90vw, 420px); height: 520px; max-height: calc(100vh - 32px); box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; text-align: center; border: 1px solid #2d2d3d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: flex-start; overflow: auto; }
         #holiday-bar { display: none; background: #f1c40f; color: #000; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.85rem; }
         .status { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; height: 1.5em; transition: color 0.3s; }
         .timer { font-size: 4rem; font-family: 'Courier New', monospace; font-weight: bold; margin: 10px 0; color: #fff; letter-spacing: -2px; }
@@ -20,9 +20,9 @@
         .tz-row:last-child { padding-bottom: 0; }
         .tz-row b { color: var(--text); font-variant-numeric: tabular-nums; }
         .label { font-size: 0.75rem; color: #64748b; margin-bottom: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
-        .calculator-button { display: block; margin: 20px 0 0; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
-        .calculator-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
-        .calculator-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
+        .page-button { display: block; margin-top: auto; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
+        .page-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .page-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
     </style>
 </head>
 <body>
@@ -38,7 +38,7 @@
         <div class="tz-row"><span>香港 Hong Kong</span><b id="hk-t">--:--:--</b></div>
         <div class="tz-row"><span>墨爾本 Melbourne</span><b id="mel-t">--:--:--</b></div>
     </div>
-    <a class="calculator-button" href="./0%20%E6%88%90%E6%9C%AC%E6%8C%81%E5%80%89%E8%A8%88%E7%AE%97%E5%99%A8.html">0 成本 Calculator</a>
+    <a class="page-button" href="./0%20%E6%88%90%E6%9C%AC%E6%8C%81%E5%80%89%E8%A8%88%E7%AE%97%E5%99%A8.html">0 成本 Calculator</a>
 </div>
 
 <script>
