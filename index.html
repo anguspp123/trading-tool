@@ -14,7 +14,10 @@
         #holiday-bar { display: none; background: #f1c40f; color: #000; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.85rem; }
         .status { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; height: 1.5em; transition: color 0.3s; }
         .timer { font-size: 4rem; font-family: 'Courier New', monospace; font-weight: bold; margin: 10px 0; color: #fff; letter-spacing: -2px; }
-        .tz-row { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid #2d2d3d; color: #94a3b8; font-size: 0.95rem; }
+        .content-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; border-radius: 8px; min-height: 120px; box-sizing: border-box; text-align: left; }
+        .tz-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #2d2d3d; color: #94a3b8; font-size: 0.95rem; }
+        .tz-row:first-child { border-top: 0; padding-top: 0; }
+        .tz-row:last-child { padding-bottom: 0; }
         .tz-row b { color: var(--text); font-variant-numeric: tabular-nums; }
         .label { font-size: 0.75rem; color: #64748b; margin-bottom: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
         .calculator-button { display: block; margin: 20px 0 0; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
@@ -30,9 +33,11 @@
     <div id="timer" class="timer">00:00:00</div>
     <div class="label">Next Phase Countdown</div>
     
-    <div class="tz-row"><span>紐約 New York</span><b id="ny-t">--:--:--</b></div>
-    <div class="tz-row"><span>香港 Hong Kong</span><b id="hk-t">--:--:--</b></div>
-    <div class="tz-row"><span>墨爾本 Melbourne</span><b id="mel-t">--:--:--</b></div>
+    <div class="content-box">
+        <div class="tz-row"><span>紐約 New York</span><b id="ny-t">--:--:--</b></div>
+        <div class="tz-row"><span>香港 Hong Kong</span><b id="hk-t">--:--:--</b></div>
+        <div class="tz-row"><span>墨爾本 Melbourne</span><b id="mel-t">--:--:--</b></div>
+    </div>
     <a class="calculator-button" href="./0%20%E6%88%90%E6%9C%AC%E6%8C%81%E5%80%89%E8%A8%88%E7%AE%97%E5%99%A8.html">0 成本 Calculator</a>
 </div>
 

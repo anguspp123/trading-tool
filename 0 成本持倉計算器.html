@@ -16,7 +16,8 @@
         label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #0f0f15; color: var(--text); }
         input:focus { outline: 3px solid rgba(52, 152, 219, 0.28); border-color: var(--blue); }
-        .result-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; margin-top: 1.5rem; border-radius: 8px; }
+        .content-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; border-radius: 8px; min-height: 120px; box-sizing: border-box; text-align: left; }
+        .result-box { margin-top: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
         .result-item { margin: 10px 0; font-size: 1.1rem; }
         .highlight { font-weight: bold; color: var(--red); }
         .remain { color: var(--green); font-weight: bold; }
@@ -36,7 +37,7 @@
         <input type="number" id="profitPct" placeholder="例如：50" oninput="calculate()">
     </div>
 
-    <div class="result-box">
+    <div class="content-box result-box">
         <div class="result-item">
             應賣出倉位：<span id="sellPct" class="highlight">0</span> <span class="highlight">%</span>
         </div>
