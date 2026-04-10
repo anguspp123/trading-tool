@@ -7,18 +7,17 @@
     <style>
         :root {
             --bg: #0a0a0c; --card: #16161e; --text: #e2e8f0;
-            --muted: #94a3b8; --line: #2d2d3d; --green: #2ecc71; --blue: #3498db; --red: #e74c3c;
+            --muted: #94a3b8; --line: #2d2d3d; --green: #2ecc71; --blue: #3498db; --red: #e74c3c; --content-box-height: 132px;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { width: min(90vw, 420px); height: 520px; max-height: calc(100vh - 32px); box-sizing: border-box; background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; overflow: auto; }
         h2 { color: var(--text); text-align: center; margin-bottom: 1.5rem; }
-        .input-group { margin-bottom: 1.2rem; }
+        .input-group { margin-bottom: 1.5rem; }
         label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }
         input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #0f0f15; color: var(--text); }
         input:focus { outline: 3px solid rgba(52, 152, 219, 0.28); border-color: var(--blue); }
-        .content-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; border-radius: 8px; min-height: 120px; box-sizing: border-box; text-align: left; }
-        .result-box { margin-top: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
-        .result-item { margin: 10px 0; font-size: 1.1rem; }
+        .content-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; border-radius: 8px; height: var(--content-box-height); box-sizing: border-box; text-align: left; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+        .result-item { margin: 6px 0; font-size: 1.1rem; }
         .highlight { font-weight: bold; color: var(--red); }
         .remain { color: var(--green); font-weight: bold; }
         .note { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
