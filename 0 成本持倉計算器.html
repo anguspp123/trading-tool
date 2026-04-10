@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0 成本持倉計算器</title>
+    <title>0 成本 Calculator</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { color: #2c3e50; text-align: center; margin-bottom: 1.5rem; }
+        :root {
+            --bg: #0a0a0c; --card: #16161e; --text: #e2e8f0;
+            --muted: #94a3b8; --line: #2d2d3d; --green: #2ecc71; --blue: #3498db; --red: #e74c3c;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 90%; max-width: 400px; box-sizing: border-box; }
+        h2 { color: var(--text); text-align: center; margin-bottom: 1.5rem; }
         .input-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.5rem; color: #7f8c8d; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
-        .result-box { background: #e8f4fd; border-left: 5px solid #3498db; padding: 1rem; margin-top: 1.5rem; border-radius: 4px; }
+        label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #0f0f15; color: var(--text); }
+        input:focus { outline: 3px solid rgba(52, 152, 219, 0.28); border-color: var(--blue); }
+        .result-box { background: #0f1720; border-left: 5px solid var(--blue); padding: 1rem; margin-top: 1.5rem; border-radius: 8px; }
         .result-item { margin: 10px 0; font-size: 1.1rem; }
-        .highlight { font-weight: bold; color: #e74c3c; }
-        .footer { text-align: center; font-size: 0.8rem; color: #bdc3c7; margin-top: 1rem; }
+        .highlight { font-weight: bold; color: var(--red); }
+        .remain { color: var(--green); font-weight: bold; }
+        .note { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+        .timer-button { display: block; margin-top: 1.25rem; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-align: center; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
+        .timer-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .timer-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
     </style>
 </head>
 <body>
@@ -32,16 +41,16 @@
             應賣出倉位：<span id="sellPct" class="highlight">0</span> <span class="highlight">%</span>
         </div>
         <div class="result-item">
-            剩餘零成本持倉：<span id="remainPct" style="color: #27ae60; font-weight: bold;">0</span> <span style="color: #27ae60; font-weight: bold;">%</span>
+            剩餘零成本持倉：<span id="remainPct" class="remain">0</span> <span class="remain">%</span>
         </div>
     </div>
 
-    <p style="font-size: 0.85rem; color: #95a5a6; line-height: 1.4;">
+    <p class="note">
         * 公式：賣出 % = 1 / (1 + 升幅%)<br>
         * 建議操作時預留少許空間作手續費。
     </p>
-    
-    <div class="footer">由 Gemini 製作</div>
+
+    <a class="timer-button" href="./index.html">返回 US TIMER</a>
 </div>
 
 <script>
