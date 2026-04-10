@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美股全自動監控 - 終極穩定版</title>
+    <style>
+        :root {
+            --bg: #0a0a0c; --card: #16161e; --text: #e2e8f0;
+            --green: #2ecc71; --blue: #3498db; --orange: #f39c12; --red: #e74c3c;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 90%; max-width: 400px; background: var(--card); padding: 2rem; border-radius: 20px; text-align: center; border: 1px solid #2d2d3d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #holiday-bar { display: none; background: #f1c40f; color: #000; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 0.85rem; }
+        .status { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; height: 1.5em; transition: color 0.3s; }
+        .timer { font-size: 4rem; font-family: 'Courier New', monospace; font-weight: bold; margin: 10px 0; color: #fff; letter-spacing: -2px; }
+        .tz-row { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid #2d2d3d; color: #94a3b8; font-size: 0.95rem; }
+        .tz-row b { color: var(--text); font-variant-numeric: tabular-nums; }
+        .label { font-size: 0.75rem; color: #64748b; margin-bottom: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .calculator-button { display: block; margin: 0 0 20px; padding: 12px 14px; border-radius: 8px; background: var(--green); color: #06120a; text-decoration: none; font-weight: 700; transition: transform 0.2s, filter 0.2s; }
+        .calculator-button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .calculator-button:focus-visible { outline: 3px solid rgba(46, 204, 113, 0.45); outline-offset: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="holiday-bar"></div>
+    <div id="status" class="status">正在同步時間...</div>
+    <div id="timer" class="timer">00:00:00</div>
+    <div class="label">Next Phase Countdown</div>
+    <a class="calculator-button" href="./0%20%E6%88%90%E6%9C%AC%E6%8C%81%E5%80%89%E8%A8%88%E7%AE%97%E5%99%A8.html">0 成本 Calculator</a>
+    
+    <div class="tz-row"><span>紐約 New York</span><b id="ny-t">--:--:--</b></div>
+    <div class="tz-row"><span>香港 Hong Kong</span><b id="hk-t">--:--:--</b></div>
+    <div class="tz-row"><span>墨爾本 Melbourne</span><b id="mel-t">--:--:--</b></div>
+</div>
+
+<script>
+    // 1. 穩健的時區時間獲取函數
+    function getT(zone) {
+        try {
+            const now = new Date();
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: zone,
+                year: 'numeric', month: 'numeric', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+                hour12: false
+            });
+            const parts = formatter.formatToParts(now);
+            const map = {};
+            parts.forEach(p => map[p.type] = p.value);
+            // 注意：month 在 Date 物件中是 0-11
+            return new Date(map.year, map.month - 1, map.day, map.hour, map.minute, map.second);
+        } catch (e) {
+            console.error("時區轉換出錯:", zone, e);
+            return new Date(); 
+        }
+    }
+
+    // 2. 萬年假期邏輯 (自動計算每年節日)
+    function getNthDay(year, month, dayOfWeek, n) {
+        let date = new Date(year, month, 1);
+        let count = 0;
+        while (date.getMonth() === month) {
+            if (date.getDay() === dayOfWeek) {
+                count++;
+                if (count === n) return new Date(date);
+            }
+            date.setDate(date.getDate() + 1);
+        }
+    }
+    function getLastDay(year, month, dayOfWeek) {
+        let date = new Date(year, month + 1, 0);
+        while (date.getDay() !== dayOfWeek) date.setDate(date.getDate() - 1);
+        return new Date(date);
+    }
+    function getGoodFriday(year) {
+        const f = Math.floor, G = year % 19, C = f(year / 100), H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;
+        const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)), J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7;
+        const L = I - J, month = 3 + f((L + 40) / 44), day = L + 28 - 31 * f(month / 4);
+        let easter = new Date(year, month - 1, day);
+        easter.setDate(easter.getDate() - 2);
+        return easter;
+    }
+
+    function getHolidays(year) {
+        const h = {};
+        const add = (d, n) => { if(d) h[d.toISOString().split('T')[0]] = n; };
+        add(new Date(year, 0, 1), "New Year's Day");
+        add(new Date(year, 5, 19), "Juneteenth");
+        add(new Date(year, 6, 4), "Independence Day");
+        add(new Date(year, 11, 25), "Christmas Day");
+        add(getNthDay(year, 0, 1, 3), "MLK Jr. Day");
+        add(getNthDay(year, 1, 1, 3), "Presidents' Day");
+        add(getLastDay(year, 4, 1), "Memorial Day");
+        add(getNthDay(year, 8, 1, 1), "Labor Day");
+        add(getNthDay(year, 10, 1, 4), "Thanksgiving");
+        add(getGoodFriday(year), "Good Friday");
+
+        const finalH = {};
+        for (let s in h) {
+            let d = new Date(s);
+            if (d.getDay() === 0) { // 週日補假到週一
+                let m = new Date(d); m.setDate(d.getDate() + 1);
+                finalH[m.toISOString().split('T')[0]] = h[s];
+            } else if (d.getDay() === 6) { // 週六提前到週五
+                let f = new Date(d); f.setDate(d.getDate() - 1);
+                finalH[f.toISOString().split('T')[0]] = h[s];
+            } else { finalH[s] = h[s]; }
+        }
+        return finalH;
+    }
+
+    // 3. 核心更新函數
+    function update() {
+        const ny = getT("America/New_York");
+        const hk = getT("Asia/Hong_Kong");
+        const mel = getT("Australia/Melbourne");
+
+        // 更新各時區時鐘顯示
+        const pad = (n) => n.toString().padStart(2, '0');
+        const timeStr = (d) => `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        
+        document.getElementById('ny-t').innerText = timeStr(ny);
+        document.getElementById('hk-t').innerText = timeStr(hk);
+        document.getElementById('mel-t').innerText = timeStr(mel);
+
+        const holidays = getHolidays(ny.getFullYear());
+        const todayStr = ny.toISOString().split('T')[0];
+
+        // 假期預警 (未來3天)
+        const bar = document.getElementById('holiday-bar');
+        bar.style.display = 'none';
+        for(let i=1; i<=3; i++) {
+            let cD = new Date(ny); cD.setDate(ny.getDate() + i);
+            let cS = cD.toISOString().split('T')[0];
+            if(holidays[cS]) {
+                bar.style.display = 'block';
+                bar.innerText = `⚠️ 預警：${holidays[cS]} 將於 ${i} 天後休市`;
+                break;
+            }
+        }
+
+        const isWeekend = (ny.getDay() === 0 || ny.getDay() === 6);
+        const isHoliday = !!holidays[todayStr];
+        const currentMins = ny.getHours() * 60 + ny.getMinutes();
+
+        let statusText = "", colorVar = "", targetDate = new Date(ny);
+
+        if (isWeekend || isHoliday) {
+            statusText = isHoliday ? `休市 (${holidays[todayStr]})` : "週末休市";
+            colorVar = "--red";
+            let next = new Date(ny);
+            do { next.setDate(next.getDate() + 1); } 
+            while (next.getDay() === 0 || next.getDay() === 6 || getHolidays(next.getFullYear())[next.toISOString().split('T')[0]]);
+            next.setHours(4,0,0,0);
+            targetDate = next;
+        } else {
+            let tH, tM;
+            if (currentMins < 4*60) { statusText = "等待盤前"; colorVar = "--blue"; tH=4; tM=0; }
+            else if (currentMins < 9*60+30) { statusText = "盤前交易 Pre-Mkt"; colorVar = "--blue"; tH=9; tM=30; }
+            else if (currentMins < 16*60) { statusText = "正式開市 Regular"; colorVar = "--green"; tH=16; tM=0; }
+            else if (currentMins < 20*60) { statusText = "盤後交易 After-Hrs"; colorVar = "--orange"; tH=20; tM=0; }
+            else { 
+                statusText = "收盤 Closed"; colorVar = "--red"; 
+                let next = new Date(ny); next.setDate(next.getDate()+1);
+                next.setHours(4,0,0,0);
+                targetDate = next;
+            }
+            if(statusText !== "收盤 Closed") targetDate.setHours(tH, tM, 0, 0);
+        }
+
+        const sEl = document.getElementById('status');
+        sEl.innerText = statusText;
+        sEl.style.color = `var(${colorVar})`;
+        
+        let diff = targetDate - ny;
+        if (diff < 0) diff = 0; // 防止負數
+
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        
+        document.getElementById('timer').innerText = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
+    // 每秒執行一次，並立即執行第一次
+    setInterval(update, 1000);
+    update();
+</script>
+</body>
+</html>

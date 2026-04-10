@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0 成本持倉計算器</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 1.5rem; }
+        .input-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #7f8c8d; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+        .result-box { background: #e8f4fd; border-left: 5px solid #3498db; padding: 1rem; margin-top: 1.5rem; border-radius: 4px; }
+        .result-item { margin: 10px 0; font-size: 1.1rem; }
+        .highlight { font-weight: bold; color: #e74c3c; }
+        .footer { text-align: center; font-size: 0.8rem; color: #bdc3c7; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>📈 0 成本持倉計算器</h2>
+    
+    <div class="input-group">
+        <label>股價升幅 (%)</label>
+        <input type="number" id="profitPct" placeholder="例如：50" oninput="calculate()">
+    </div>
+
+    <div class="result-box">
+        <div class="result-item">
+            應賣出倉位：<span id="sellPct" class="highlight">0</span> <span class="highlight">%</span>
+        </div>
+        <div class="result-item">
+            剩餘零成本持倉：<span id="remainPct" style="color: #27ae60; font-weight: bold;">0</span> <span style="color: #27ae60; font-weight: bold;">%</span>
+        </div>
+    </div>
+
+    <p style="font-size: 0.85rem; color: #95a5a6; line-height: 1.4;">
+        * 公式：賣出 % = 1 / (1 + 升幅%)<br>
+        * 建議操作時預留少許空間作手續費。
+    </p>
+    
+    <div class="footer">由 Gemini 製作</div>
+</div>
+
+<script>
+    function calculate() {
+        const r = parseFloat(document.getElementById('profitPct').value) / 100;
+        const sellDisplay = document.getElementById('sellPct');
+        const remainDisplay = document.getElementById('remainPct');
+
+        if (isNaN(r) || r <= 0) {
+            sellDisplay.innerText = "0";
+            remainDisplay.innerText = "0";
+            return;
+        }
+
+        // 賣出比例 X = 1 / (1 + r)
+        const sellRatio = (1 / (1 + r)) * 100;
+        const remainRatio = 100 - sellRatio;
+
+        sellDisplay.innerText = sellRatio.toFixed(2);
+        remainDisplay.innerText = remainRatio.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
